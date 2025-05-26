@@ -30,7 +30,7 @@ module "VPC" {
 # Security Group
 module "SG" {
   source = "../../Modules/SECURITYGROUPS"
-  create_ASG-ALB_sg = var.create_ASG-ALB_sg
+  create_ASG-ALB_sg = var.create_ASG_ALB_sg
   create_bastion_sg = var.create_bastion_sg
   create_webappinstance_sg = var.create_webappinstance_sg
   vpc_id = module.VPC.MyVPC
@@ -54,7 +54,7 @@ module "IAMROLE" {
 
 #Key Pair
 module "KEYPAIR" {
-  source = "../../Modules/KEYPAIR"
+  source = "../../Modules/KEYPAIR" # edit the publickey in module. set is as variable
   #tags
   default_tags = local.default_tags
   keypair_tag = var.keypair_tag
