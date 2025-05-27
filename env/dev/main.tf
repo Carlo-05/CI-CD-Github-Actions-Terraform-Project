@@ -55,6 +55,7 @@ module "IAMROLE" {
 #Key Pair
 module "KEYPAIR" {
   source = "../../Modules/KEYPAIR" # edit the publickey in module. set is as variable
+  public_key = var.public_key
   #tags
   default_tags = local.default_tags
   keypair_tag = var.keypair_tag

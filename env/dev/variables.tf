@@ -24,8 +24,13 @@ variable "private_subnet_count" {
   description = "number of private subnet"
 }
 
+# Key pair
+variable "public_key" {
+  description = "local public key"
+}
+
 # SG
-variable "create_ASG-ALB_sg" {
+variable "create_ASG_ALB_sg" {
   type = bool
   description = "create asg & alb sg?"
 }
