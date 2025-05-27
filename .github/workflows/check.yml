@@ -12,6 +12,10 @@ on:
           - dev
           - prod
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terraform-check:
     name: Terraform Lint & Validate
