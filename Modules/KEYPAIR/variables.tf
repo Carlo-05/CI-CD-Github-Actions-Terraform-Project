@@ -1,5 +1,6 @@
-
-
+variable "public_key" {
+  description = "local public key"
+}
 
 
 #tagging
