@@ -32,8 +32,8 @@ jobs:
       - name: Set environment input
         run: echo "${{ github.event.inputs.environment }}" > env_relay
 
-      - name: Debug env.txt contents
-        run: cat env_relay.txt
+      - name: Debug env_relay contents
+        run: cat env_relay
 
       - name: Upload environment artifact
         uses: actions/upload-artifact@v4
