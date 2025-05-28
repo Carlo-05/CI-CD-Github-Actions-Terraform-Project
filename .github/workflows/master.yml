@@ -21,9 +21,13 @@ jobs:
     uses: ./.github/workflows/check.yml
     with:
       environment: ${{ github.event.inputs.environment }}
+    secrets: 
+      IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_ARN }}
 
   call-deploy:
     needs: call-checks
     uses: ./.github/workflows/deploy.yml
     with:
       environment: ${{ github.event.inputs.environment }}
+    secrets: 
+      IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_ARN }
