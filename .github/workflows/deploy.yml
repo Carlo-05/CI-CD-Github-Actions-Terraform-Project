@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   terraform-deploy:
-    name: Terraform Lint & Validate
+    name: Terraform Plan & Apply
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
@@ -92,17 +92,6 @@ jobs:
       TF_VAR_WebApp_ASG_template_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
 
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: env
-
-    - name: Read environment
-      id: read_env
-      run: |
-        ENVIRONMENT=$(cat env.txt)
-        echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
-
     - name: Checkout code
       uses: actions/checkout@v4
 
