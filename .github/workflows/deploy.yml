@@ -90,12 +90,12 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v4
       with:
-        name: env
+        name: env_relay
         
     - name: Read environment
       id: read_env
       run: |
-        ENVIRONMENT=$(cat env.txt)
+        ENVIRONMENT=$(cat env_relay)
         echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
 
     - name: Configure AWS credentials via OIDC
