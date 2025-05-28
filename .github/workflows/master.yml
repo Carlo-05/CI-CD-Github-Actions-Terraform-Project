@@ -30,4 +30,4 @@ jobs:
     with:
       environment: ${{ github.event.inputs.environment }}
     secrets: 
-      IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_ARN }
+      IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_ARN }}
