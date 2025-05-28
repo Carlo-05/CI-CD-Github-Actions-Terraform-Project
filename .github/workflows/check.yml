@@ -21,9 +21,6 @@ jobs:
     name: Terraform Lint & Validate
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-
-
-
     defaults:
       run:
         working-directory: env/${{ github.event.inputs.environment }}
@@ -37,7 +34,6 @@ jobs:
 
       - name: Debug IAM Role ARN
         run: echo "IAM Role ARN is ${{ secrets.IAM_ROLE_ARN }}"
-
 
       - name: AWS credential
         uses: aws-actions/configure-aws-credentials@v2
