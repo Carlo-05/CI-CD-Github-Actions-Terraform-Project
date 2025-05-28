@@ -32,6 +32,9 @@ jobs:
       - name: Set environment input
         run: echo "${{ github.event.inputs.environment }}" > env.txt
 
+      - name: Debug env.txt contents
+        run: cat env.txt
+
       - name: Upload environment artifact
         uses: actions/upload-artifact@v4
         with:
