@@ -9,7 +9,7 @@ variable "create_webappinstance_sg" {
   type = bool
   description = "create ec2 webapp?"
 }
-variable "create_ASG-ALB_sg" {
+variable "create_ASG_ALB_sg" {
   type = bool
   description = "create ASG & ALB sg"
 }
