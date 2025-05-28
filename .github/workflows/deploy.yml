@@ -9,6 +9,7 @@ on:
 permissions:
   id-token: write
   contents: read
+  actions: read
 
 jobs:
   deploy:
@@ -86,6 +87,8 @@ jobs:
     steps:
     - name: Download artifact
       uses: actions/download-artifact@v4
+      with:
+        name: env_relay
 
     - name: Read environment
       id: read_env
