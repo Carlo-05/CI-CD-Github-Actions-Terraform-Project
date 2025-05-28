@@ -25,7 +25,10 @@ jobs:
       run:
         working-directory: env/${{ github.event.inputs.environment }}
 
-    steps:
+    steps:          
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Ensure environment directory exists
         run: mkdir -p environment
         
@@ -38,9 +41,6 @@ jobs:
           name: env
           path: environment/env.txt
           
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
