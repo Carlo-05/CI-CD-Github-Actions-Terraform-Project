@@ -21,13 +21,82 @@ jobs:
     name: Terraform Lint & Validate
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
+
+    env:
+      TF_VAR_select_region: ${{ vars.SELECT_REGION }}
+      TF_VAR_vpc_cidr_block: ${{ vars.VPC_CIDR_BLOCK }}
+      TF_VAR_public_subnet_count: ${{ vars.PUBLIC_SUBNET_COUNT }}
+      TF_VAR_private_subnet_count: ${{ vars.PRIVATE_SUBNET_COUNT }}
+      # SG
+      TF_VAR_create_ASG-ALB_sg: ${{ vars.CREATE_ASG_ALB_SG }}
+      TF_VAR_create_bastion_sg: ${{ vars.CREATE_BASTION_SG }}
+      TF_VAR_create_webappinstance_sg: ${{ vars.CREATE_WEBAPPINSTANCE_SG }}
+      # ALB
+      TF_VAR_s3_bucket_ALB_logs: ${{ vars.SELECT_REGION || 'false' }} # prod
+      TF_VAR_alb_logs_prefix: ${{ vars.SELECT_REGION || 'false' }} # prod
+      #Parameter store
+      TF_VAR_ssm_db_name: ${{ secrets.SSM_DB_NAME }}
+      TF_VAR_ssm_db_username: ${{ secrets.SSM_DB_USERNAME }}
+      TF_VAR_ssm_db_password: ${{ secrets.SSM_DB_PASSWORD }}
+      TF_VAR_ssm_db_endpoint: ${{ secrets.SSM_DB_ENDPOINT }}
+      #RDS
+      TF_VAR_db_identifier: ${{ vars.DB_IDENTIFIER }}
+      TF_VAR_db_engine: ${{ vars.DB_ENGINE }}
+      TF_VAR_db_engine_version: ${{ vars.DB_ENGINE_VERSION }}
+      TF_VAR_db_instance_class: ${{ vars.DB_INSTANCE_CLASS }} #change to db.t3.medium for multi-az
+      TF_VAR_db_allocated_storage: ${{ vars.DB_ALLOCATED_STORAGE }}
+      TF_VAR_DB_AZ: ${{ vars.DB_AZ || 'false' }} # dev
+      TF_VAR_db_multi_az: ${{ vars.DB_MULTI_AZ }}
+      #Bastion/ASG/EC2
+      TF_VAR_select_ami: ${{ vars.SELECT_AMI }}
+      TF_VAR_instance_type: ${{ vars.INSTANCE_TYPE }}
+      #TAGS
+      TF_VAR_env: ${{ vars.ENV }}
+      TF_VAR_project_name: ${{ vars.PROJECT_NAME }}
+      #vpc tags
+      TF_VAR_vpc_tag: ${{ vars.VPC_TAG }}
+      TF_VAR_public_subnet_tag: ${{ vars.PUBLIC_SUBNET_TAG }}
+      TF_VAR_private_subnet_tag: ${{ vars.PRIVATE_SUBNET_TAG }}
+      TF_VAR_public_RT_tag: ${{ vars.PUBLIC_RT_TAG }}
+      TF_VAR_private_RT1_tag: ${{ vars.PRIVATE_RT1_TAG }}
+      TF_VAR_private_RT2_tag: ${{ vars.PRIVATE_RT2_TAG }}
+      TF_VAR_igw_tag: ${{ vars.IGW_TAG }}
+      #KeyPair
+      TF_VAR_PUBLIC_KEY: ${{ secrets.ID_RSA_PUBLIC }}
+      #SG tags
+      TF_VAR_webapp_sg_tag: ${{ vars.WEBAPP_SG_TAG }}
+      TF_VAR_dbsg_tag: ${{ vars.DBSG_TAG }}
+      TF_VAR_bastion_sg_tag: ${{ vars.BASTION_SG_TAG }}
+      TF_VAR_ALB_sg_tag: ${{ vars.ALB_SG_TAG }} #prod
+      TF_VAR_ASG_sg_tag: ${{ vars.ASG_SG_TAG }} #prod
+      #NAT
+      TF_VAR_NatGateway_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      TF_VAR_EIP_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      #IAM role tag
+      TF_VAR_iam_role_tag: ${{ vars.IAM_ROLE_TAG }}
+      #RDS tags
+      TF_VAR_db_subnetgroup_tag: ${{ vars.DB_SUBNETGROUP_TAG }}
+      #Keypair tag
+      TF_VAR_keypair_tag: ${{ vars.KEYPAIR_TAG }}
+      #Webapp tag
+      TF_VAR_EC2_webapp_tag: ${{ vars.EC2_WEBAPP_TAG }}
+      #Bastion tag
+      TF_VAR_bastion_tag: ${{ vars.BASTION_TAG || 'false' }} # prod
+      #ALB tag
+      TF_VAR_ALB_listener_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      TF_VAR_webapp_target_group_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      TF_VAR_webapp_ALB_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      #ASG
+      TF_VAR_Webapp_ASG_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+      TF_VAR_WebApp_ASG_template_tag: ${{ vars.SELECT_REGION || 'false' }} #prod
+
     defaults:
       run:
         working-directory: env/${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
