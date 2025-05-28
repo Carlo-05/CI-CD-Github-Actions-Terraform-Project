@@ -35,11 +35,14 @@ jobs:
       - name: Debug env
         run: echo "env is ${{ inputs.environment }}"
 
+      - name: Debug aws region
+        run: echo "region is ${{ vars.AWS_REGION }}"
+
       - name: AWS credential
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
-          aws-region: ${{vars.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Terraform Format Check
         run: terraform fmt -recursive
