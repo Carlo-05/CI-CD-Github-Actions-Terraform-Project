@@ -113,7 +113,7 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan
-      working-directory: env/${{ steps.read_env.outputs.read_env }}
+      working-directory: env/${{ inputs.environment }}
 
 #    - name: Terraform Apply (Auto Approve)
 #      run: terraform apply -auto-approve
