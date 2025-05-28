@@ -115,7 +115,11 @@ jobs:
         run: terraform fmt -recursive
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="bucket=${ vars.BACKEND_BUCKET }" \
+            -backend-config="key=${ vars.BACKEND_KEY }" \
+            -backend-config="region=${ vars.BACKEND_REGION }"
 
       - name: Terraform Validate
         run: terraform validate
