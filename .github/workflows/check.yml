@@ -26,6 +26,15 @@ jobs:
         working-directory: env/${{ github.event.inputs.environment }}
 
     steps:
+      - name: Set environment input
+        run: echo "${{ github.event.inputs.environment }}" > env.txt
+
+      - name: Upload environment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: env
+          path: env.txt
+          
       - name: Checkout code
         uses: actions/checkout@v4
 
