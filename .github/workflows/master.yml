@@ -1,0 +1,26 @@
+name: Master
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
+
+
+jobs:
+  call-checks:
+    uses: ./.github/workflows/check.yml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+
+  call-deploy:
+    needs: call-checks
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: ${{ github.event.inputs.environment }}
