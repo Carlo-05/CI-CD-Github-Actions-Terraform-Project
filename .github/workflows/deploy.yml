@@ -89,6 +89,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: env_relay
+        path: .
 
     - name: Read environment
       id: read_env
