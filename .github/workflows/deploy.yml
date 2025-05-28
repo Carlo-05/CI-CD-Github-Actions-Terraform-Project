@@ -106,7 +106,8 @@ jobs:
 
     - name: Debug Boolean values
       run: |
-          echo "TF_VAR_create_ASG_ALB_sg=${{TF_VAR_create_ASG_ALB_sg}}"
+          echo "TF_VAR_create_ASG_ALB_sg=${TF_VAR_create_ASG_ALB_sg}"
+          env
 
     - name: Terraform Init
       run: |
