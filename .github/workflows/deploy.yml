@@ -9,7 +9,7 @@ on:
     secrets: 
       IAM_ROLE_ARN:
         required: true 
-      PUBLIC_KEY:
+      ID_RSA_PUBLIC:
         required: true 
       SSM_DB_ENDPOINT:
         required: true 
