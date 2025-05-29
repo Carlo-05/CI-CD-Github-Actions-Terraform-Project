@@ -31,7 +31,7 @@ jobs:
       TF_VAR_public_subnet_count: ${{ vars.PUBLIC_SUBNET_COUNT }}
       TF_VAR_private_subnet_count: ${{ vars.PRIVATE_SUBNET_COUNT }}
       # SG
-      TF_VAR_create_ASG-ALB_sg: ${{ vars.CREATE_ASG_ALB_SG }}
+      TF_VAR_create_ASG_ALB_sg: ${{ vars.CREATE_ASG_ALB_SG }}
       TF_VAR_create_bastion_sg: ${{ vars.CREATE_BASTION_SG }}
       TF_VAR_create_webappinstance_sg: ${{ vars.CREATE_WEBAPPINSTANCE_SG }}
       #Parameter store
@@ -119,7 +119,7 @@ jobs:
 
     - name: debug boolean
       run: |
-          echo "TF_VAR_create_ASG-ALB_sg =  ${TF_VAR_create_ASG-ALB_sg}"
+          echo "TF_VAR_create_ASG_ALB_sg =  ${TF_VAR_create_ASG_ALB_sg}"
           echo "TF_VAR_create_bastion_sg =  ${TF_VAR_create_bastion_sg}"
           echo "TF_VAR_create_webappinstance_sg =  ${TF_VAR_create_webappinstance_sg}"
 
