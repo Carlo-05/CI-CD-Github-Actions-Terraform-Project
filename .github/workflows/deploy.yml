@@ -6,6 +6,9 @@ on:
       environment:
         required: true
         type: string
+    secrets: 
+      IAM_ROLE_ARN:
+        required: true 
 
 
 permissions:
