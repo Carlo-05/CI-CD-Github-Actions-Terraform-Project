@@ -61,7 +61,7 @@ jobs:
       TF_VAR_private_RT2_tag: ${{ vars.PRIVATE_RT2_TAG }}
       TF_VAR_igw_tag: ${{ vars.IGW_TAG }}
       #KeyPair
-      TF_VAR_PUBLIC_KEY: ${{ secrets.ID_RSA_PUBLIC }}
+      TF_VAR_public_key: ${{ secrets.ID_RSA_PUBLIC }}
       #SG tags
       TF_VAR_webapp_sg_tag: ${{ vars.WEBAPP_SG_TAG }}
       TF_VAR_dbsg_tag: ${{ vars.DBSG_TAG }}
