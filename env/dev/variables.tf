@@ -74,9 +74,6 @@ variable "db_instance_class" {  #change to db.t3.medium for multi-az
 variable "db_allocated_storage" {
   description = "value"
 }
-variable "db_AZ" {
-  description = "value"
-}
 variable "db_multi_az" {
   type = bool
   description = "value"

@@ -1,19 +1,26 @@
-provider "aws" {
-  region = lookup(var.region, var.select_region, "us-west-2")
-}
-
 locals {
+    current_region = lookup(var.region, var.select_region, "us-west-2")
+    az = [
+      "${local.current_region}a",
+      "${local.current_region}b"
+    ]
+
     default_tags = {
   Environment = var.env
   Project = var.project_name
   }
 }
 
+provider "aws" {
+  region = local.current_region
+}
+
+
 #VPC
 module "VPC" {
   source = "../../Modules/VPC"
   vpc_cidr_block = var.vpc_cidr_block
-  region = lookup(var.region, var.select_region, "us-west-2")
+  region = local.current_region
   public_subnet_count = var.public_subnet_count
   private_subnet_count = var.private_subnet_count
   #Tags
@@ -30,7 +37,7 @@ module "VPC" {
 # Security Group
 module "SG" {
   source = "../../Modules/SECURITYGROUPS"
-  create_ASG_ALB_sg = var.create_ASG_ALB_sg
+  create_ASG_ALB_sg = var.create_ASG_ALB_sg #edit sg module variable to change create_ASG-ALB_sg to create_ASG_ALB_sg
   create_bastion_sg = var.create_bastion_sg
   create_webappinstance_sg = var.create_webappinstance_sg
   vpc_id = module.VPC.MyVPC
@@ -91,7 +98,7 @@ module "RDS" {
   db_name = data.aws_ssm_parameter.db_name.value
   db_username = data.aws_ssm_parameter.db_username.value
   db_password = data.aws_ssm_parameter.db_password.value
-  db_AZ = var.db_multi_az ? null : module.VPC.vpc_az[0]
+  db_AZ = var.db_multi_az ? null : local.az[0]
   db_multi_az = var.db_multi_az
   #tags
   default_tags = local.default_tags
