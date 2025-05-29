@@ -125,8 +125,16 @@ jobs:
           echo "TF_VAR_create_bastion_sg =  ${TF_VAR_create_bastion_sg}"
           echo "TF_VAR_create_webappinstance_sg =  ${TF_VAR_create_webappinstance_sg}"
 
-    - name: Debug TF_VAR_public_key
-      run: echo "${TF_VAR_public_key}" | head -c 30
+    - name: Debug public key presence
+      run: |
+        if [ -z "$TF_VAR_public_key" ]; then
+          echo "PUBLIC_KEY not set"
+          exit 1
+        else
+          echo "✅ PUBLIC_KEY is set"
+          echo "$TF_VAR_public_key" | head -c 20
+        fi
+
 
     - name: Terraform Plan
       run: terraform plan
