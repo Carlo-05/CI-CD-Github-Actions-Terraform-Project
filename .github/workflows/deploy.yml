@@ -9,7 +9,17 @@ on:
     secrets: 
       IAM_ROLE_ARN:
         required: true 
-
+      PUBLIC_KEY:
+        required: true 
+      SSM_DB_ENDPOINT:
+        required: true 
+      SSM_DB_NAME:
+        required: true
+      SSM_DB_PASSWORD:
+        required: true
+      SSM_DB_USERNAME:
+        required: true
+        
 
 permissions:
   id-token: write
