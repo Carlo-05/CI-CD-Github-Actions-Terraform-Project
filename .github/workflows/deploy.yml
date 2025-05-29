@@ -80,6 +80,8 @@ jobs:
       # ALB
       TF_VAR_s3_bucket_ALB_logs: ${{ inputs.environment == 'prod' && (vars.S3_BUCKET_ALB_LOGS != '' && vars.S3_BUCKET_ALB_LOGS || '') || '' }} # prod
       TF_VAR_alb_logs_prefix: ${{ inputs.environment == 'prod' && (vars.ALB_LOGS_PREFIX != '' && vars.ALB_LOGS_PREFIX || '') || '' }} # prod
+      # RDS
+      TF_VAR_DB_AZ: ${{ inputs.environment == 'dev' && (vars.DB_MULTI_AZ == 'false' && vars.DB_AZ || '') || '' }} # dev
       #SG TAGS
       TF_VAR_ALB_sg_tag: ${{ inputs.environment == 'prod' && (vars.ALB_SG_TAG != '' && vars.ALB_SG_TAG || '') || '' }} #prod
       TF_VAR_ASG_sg_tag: ${{ inputs.environment == 'prod' && (vars.ASG_SG_TAG != '' && vars.ASG_SG_TAG || '') || '' }} #prod
