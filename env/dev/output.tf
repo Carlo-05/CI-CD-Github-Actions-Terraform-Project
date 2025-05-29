@@ -10,3 +10,6 @@ output "webapp-public-ip" {
 output "webapp-private-ip" {
   value = module.WEBAPP.webapp_instance_private_ip
 }
+output "db_az" {
+  value = module.VPC.vpc_az[0]
+}
