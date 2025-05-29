@@ -145,7 +145,13 @@ jobs:
           echo "$TF_VAR_public_key" | head -c 20
         fi
 
-
+    - name: Debug SSM DB Endpoint
+      run: |
+        echo "SSM_DB_ENDPOINT=${TF_VAR_ssm_db_endpoint}"
+        echo "SSM_DB_NAME=${TF_VAR_ssm_db_name}"
+        echo "SSM_DB_PASSWORD=${TF_VAR_ssm_db_password}"
+        echo "SSM_DB_USERNAME=${TF_VAR_ssm_db_username}"
+ 
     - name: Terraform Plan
       run: terraform plan
       working-directory: env/${{ inputs.environment }}
