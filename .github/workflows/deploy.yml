@@ -117,6 +117,12 @@ jobs:
             -backend-config="key=${{ vars.BACKEND_KEY }}" \
             -backend-config="region=${{ vars.BACKEND_REGION }}"
 
+    - name: debug boolean
+      run: |
+          echo "TF_VAR_create_ASG-ALB_sg =  ${TF_VAR_create_ASG-ALB_sg}"
+          echo "TF_VAR_create_bastion_sg =  ${TF_VAR_create_bastion_sg}"
+          echo "TF_VAR_create_webappinstance_sg =  ${TF_VAR_create_webappinstance_sg}"
+
     - name: Terraform Plan
       run: terraform plan
       working-directory: env/${{ inputs.environment }}
