@@ -23,12 +23,7 @@ jobs:
       environment: ${{ github.event.inputs.environment }}
     secrets: 
       IAM_ROLE_ARN: ${{ secrets.IAM_ROLE_ARN }}
-      PUBLIC_KEY: ${{ secrets.ID_RSA_PUBLIC }}
-      SSM_DB_ENDPOINT: ${{ secrets.SSM_DB_ENDPOINT }}
-      SSM_DB_NAME: ${{ secrets.SSM_DB_NAME }}
-      SSM_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      SSM_DB_USERNAME: ${{ secrets.DB_USERNAME }}
-
+      
   call-deploy:
     needs: call-checks
     uses: ./.github/workflows/deploy.yml
