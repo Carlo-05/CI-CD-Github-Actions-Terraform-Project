@@ -125,6 +125,9 @@ jobs:
           echo "TF_VAR_create_bastion_sg =  ${TF_VAR_create_bastion_sg}"
           echo "TF_VAR_create_webappinstance_sg =  ${TF_VAR_create_webappinstance_sg}"
 
+    - name: Debug TF_VAR_public_key
+      run: echo "${TF_VAR_public_key}" | head -c 30
+
     - name: Terraform Plan
       run: terraform plan
       working-directory: env/${{ inputs.environment }}
