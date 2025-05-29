@@ -34,5 +34,5 @@ jobs:
       ID_RSA_PUBLIC: ${{ secrets.ID_RSA_PUBLIC }}
       SSM_DB_ENDPOINT: ${{ secrets.SSM_DB_ENDPOINT }}
       SSM_DB_NAME: ${{ secrets.SSM_DB_NAME }}
-      SSM_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      SSM_DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      SSM_DB_PASSWORD: ${{ secrets.SSM_DB_PASSWORD }}
+      SSM_DB_USERNAME: ${{ secrets.SSM_DB_USERNAME }}
