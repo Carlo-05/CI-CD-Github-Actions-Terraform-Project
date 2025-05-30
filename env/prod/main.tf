@@ -30,7 +30,7 @@ module "VPC" {
 # Security Group
 module "SG" {
   source = "../../Modules/SECURITYGROUPS"
-  create_ASG-ALB_sg = var.create_ASG_ALB_sg
+  create_ASG_ALB_sg = var.create_ASG_ALB_sg
   create_bastion_sg = var.create_bastion_sg
   create_webappinstance_sg = var.create_webappinstance_sg
   vpc_id = module.VPC.MyVPC
