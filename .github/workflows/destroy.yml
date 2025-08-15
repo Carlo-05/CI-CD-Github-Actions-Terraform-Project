@@ -1,0 +1,118 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    defaults:
+      run:
+        working-directory: env/${{ github.event.inputs.environment }}
+
+    env:
+      # COMMON VARIABLE
+      TF_VAR_select_region: ${{ vars.SELECT_REGION }}
+      TF_VAR_vpc_cidr_block: ${{ vars.VPC_CIDR_BLOCK }}
+      TF_VAR_public_subnet_count: ${{ vars.PUBLIC_SUBNET_COUNT }}
+      TF_VAR_private_subnet_count: ${{ vars.PRIVATE_SUBNET_COUNT }}
+      # SG
+      TF_VAR_create_ASG_ALB_sg: ${{ vars.CREATE_ASG_ALB_SG }}
+      TF_VAR_create_bastion_sg: ${{ vars.CREATE_BASTION_SG }}
+      TF_VAR_create_webappinstance_sg: ${{ vars.CREATE_WEBAPPINSTANCE_SG }}
+      # Parameter store
+      TF_VAR_ssm_db_name: ${{ secrets.SSM_DB_NAME }}
+      TF_VAR_ssm_db_username: ${{ secrets.SSM_DB_USERNAME }}
+      TF_VAR_ssm_db_password: ${{ secrets.SSM_DB_PASSWORD }}
+      TF_VAR_ssm_db_endpoint: ${{ secrets.SSM_DB_ENDPOINT }}
+      # RDS
+      TF_VAR_db_identifier: ${{ vars.DB_IDENTIFIER }}
+      TF_VAR_db_engine: ${{ vars.DB_ENGINE }}
+      TF_VAR_db_engine_version: ${{ vars.DB_ENGINE_VERSION }}
+      TF_VAR_db_instance_class: ${{ vars.DB_INSTANCE_CLASS }}
+      TF_VAR_db_allocated_storage: ${{ vars.DB_ALLOCATED_STORAGE }}
+      TF_VAR_db_multi_az: ${{ vars.DB_MULTI_AZ }}
+      # Bastion/ASG/EC2
+      TF_VAR_select_ami: ${{ vars.SELECT_AMI }}
+      TF_VAR_instance_type: ${{ vars.INSTANCE_TYPE }}
+      # TAGS
+      TF_VAR_env: ${{ vars.ENV }}
+      TF_VAR_project_name: ${{ vars.PROJECT_NAME }}
+      # vpc tags
+      TF_VAR_vpc_tag: ${{ vars.VPC_TAG }}
+      TF_VAR_public_subnet_tag: ${{ vars.PUBLIC_SUBNET_TAG }}
+      TF_VAR_private_subnet_tag: ${{ vars.PRIVATE_SUBNET_TAG }}
+      TF_VAR_public_RT_tag: ${{ vars.PUBLIC_RT_TAG }}
+      TF_VAR_private_RT1_tag: ${{ vars.PRIVATE_RT1_TAG }}
+      TF_VAR_private_RT2_tag: ${{ vars.PRIVATE_RT2_TAG }}
+      TF_VAR_igw_tag: ${{ vars.IGW_TAG }}
+      # KeyPair
+      TF_VAR_public_key: ${{ secrets.ID_RSA_PUBLIC }}
+      # SG tags
+      TF_VAR_webapp_sg_tag: ${{ vars.WEBAPP_SG_TAG }}
+      TF_VAR_dbsg_tag: ${{ vars.DBSG_TAG }}
+      TF_VAR_bastion_sg_tag: ${{ vars.BASTION_SG_TAG }}
+      # IAM role tag
+      TF_VAR_iam_role_tag: ${{ vars.IAM_ROLE_TAG }}
+      # RDS tags
+      TF_VAR_db_subnetgroup_tag: ${{ vars.DB_SUBNETGROUP_TAG }}
+      # Keypair tag
+      TF_VAR_keypair_tag: ${{ vars.KEYPAIR_TAG }}
+      # Webapp tag
+      TF_VAR_EC2_webapp_tag: ${{ vars.EC2_WEBAPP_TAG }}
+
+      # EXCLUSIVE VARIABLES
+      TF_VAR_s3_bucket_ALB_logs: ${{ github.event.inputs.environment == 'prod' && (vars.S3_BUCKET_ALB_LOGS != '' && vars.S3_BUCKET_ALB_LOGS || '') || '' }}
+      TF_VAR_alb_logs_prefix: ${{ github.event.inputs.environment == 'prod' && (vars.ALB_LOGS_PREFIX != '' && vars.ALB_LOGS_PREFIX || '') || '' }}
+      TF_VAR_DB_AZ: ${{ github.event.inputs.environment == 'dev' && (vars.DB_MULTI_AZ == 'false' && vars.DB_AZ || '') || '' }}
+      TF_VAR_ALB_sg_tag: ${{ github.event.inputs.environment == 'prod' && (vars.ALB_SG_TAG != '' && vars.ALB_SG_TAG || '') || '' }}
+      TF_VAR_ASG_sg_tag: ${{ github.event.inputs.environment == 'prod' && (vars.ASG_SG_TAG != '' && vars.ASG_SG_TAG || '') || '' }}
+      TF_VAR_NatGateway_tag: ${{ github.event.inputs.environment == 'prod' && (vars.NATGATEWAY_TAG != '' && vars.NATGATEWAY_TAG || '') || '' }}
+      TF_VAR_EIP_tag: ${{ github.event.inputs.environment == 'prod' && (vars.EIP_TAG != '' && vars.EIP_TAG || '') || '' }}
+      TF_VAR_bastion_tag: ${{ github.event.inputs.environment == 'prod' && (vars.BASTION_TAG != '' && vars.BASTION_TAG || '') || '' }}
+      TF_VAR_ALB_listener_tag: ${{ github.event.inputs.environment == 'prod' && (vars.ALB_LISTENER_TAG != '' && vars.ALB_LISTENER_TAG || '') || '' }}
+      TF_VAR_webapp_target_group_tag: ${{ github.event.inputs.environment == 'prod' && (vars.WEBAPP_TARGET_GROUP_TAG != '' && vars.WEBAPP_TARGET_GROUP_TAG || '') || '' }}
+      TF_VAR_webapp_ALB_tag: ${{ github.event.inputs.environment == 'prod' && (vars.WEBAPP_ALB_TAG != '' && vars.WEBAPP_ALB_TAG || '') || '' }}
+      TF_VAR_Webapp_ASG_tag: ${{ github.event.inputs.environment == 'prod' && (vars.WEBAPP_ASG_TAG != '' && vars.WEBAPP_ASG_TAG || '') || '' }}
+      TF_VAR_WebApp_ASG_template_tag: ${{ github.event.inputs.environment == 'prod' && (vars.WEBAPP_ASG_TEMPLATE_TAG != '' && vars.WEBAPP_ASG_TEMPLATE_TAG || '') || '' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials via OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: |
+          terraform init \
+            -backend-config="bucket=${{ vars.BACKEND_BUCKET }}" \
+            -backend-config="key=${{ vars.BACKEND_KEY }}" \
+            -backend-config="region=${{ vars.BACKEND_REGION }}"
+
+    - name: Terraform Plan Destroy
+      run: terraform plan -destroy
+
+    - name: Terraform Destroy (Auto Approve)
+      run: terraform destroy -auto-approve
