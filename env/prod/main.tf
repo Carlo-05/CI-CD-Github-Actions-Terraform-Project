@@ -16,6 +16,7 @@ module "VPC" {
   region = lookup(var.region, var.select_region, "us-west-2")
   public_subnet_count = var.public_subnet_count
   private_subnet_count = var.private_subnet_count
+  env = var.env
   #Tags
   default_tags = local.default_tags
   vpc_tag = var.vpc_tag
@@ -165,3 +166,4 @@ module "ASG" {
 
 
 }
+
