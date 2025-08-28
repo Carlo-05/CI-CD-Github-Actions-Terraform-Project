@@ -4,7 +4,7 @@ resource "aws_instance" "BastionHost" {
     security_groups = [var.bastion_sg]
     subnet_id = var.subnet_id
     key_name = var.key_name
-    user_data = base64encode(<<-EOF
+    user_data = <<-EOF
       #!/bin/bash
 
       # Log everything for debugging
@@ -42,6 +42,7 @@ resource "aws_instance" "BastionHost" {
           exit 1
       fi
     EOF
-    )
+    
     tags = merge(var.default_tags, { Name = var.bastion_tag })  
+
 }
