@@ -37,8 +37,8 @@ elif echo "$OS_TYPE" | grep -q "Ubuntu"; then
     echo "Detected Ubuntu. Installing AWS CLI and Apache..."
     
     # Update and install Apache
-    sudo apt update -y
-    sudo apt install -y awscli apache2 mysql-client
+    sudo apt-get update -y
+    sudo apt-get install -y awscli apache2 mysql-client
     
     # Start & Enable Apache
     sudo systemctl start apache2
