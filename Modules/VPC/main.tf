@@ -66,6 +66,7 @@ resource "aws_route_table" "Private-Route-Table-1" {
 }
 # Private Route Table db
 resource "aws_route_table" "Private-Route-Table-2" {
+  count = var.env == "prod" ? 1 : 0
   vpc_id = aws_vpc.MyVPC.id
   tags = merge(var.default_tags, { Name = var.private_RT2_tag })
 }
@@ -74,7 +75,8 @@ resource "aws_route_table" "Private-Route-Table-2" {
 resource "aws_route_table_association" "Private-RTA-1" {
   count = length(aws_subnet.Private-1)
   subnet_id      = aws_subnet.Private-1[count.index].id
-  route_table_id = count.index < 2 ? aws_route_table.Private-Route-Table-1.id : aws_route_table.Private-Route-Table-2.id
+  route_table_id = count.index < 2 ? aws_route_table.Private-Route-Table-1.id : (var.env == "prod" ? aws_route_table.Private-Route-Table-2[0].id : aws_route_table.Private-Route-Table-1.id )
 }
+
 
 
