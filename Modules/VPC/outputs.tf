@@ -17,9 +17,10 @@ output "private-route-table-1" {
   value = aws_route_table.Private-Route-Table-1.id  
 }
 output "private-route-table-2" {
-  value = aws_route_table.Private-Route-Table-2.id  
+  value = aws_route_table.Private-Route-Table-2[*].id  
 }
 output "public-route-table" {
   value = aws_route_table.Public-Route-Table.id
   
+
 }
