@@ -23,6 +23,7 @@ module "VPC" {
   region = local.current_region
   public_subnet_count = var.public_subnet_count
   private_subnet_count = var.private_subnet_count
+  env = var.env
   #Tags
   default_tags = local.default_tags
   vpc_tag = var.vpc_tag
@@ -124,4 +125,5 @@ module "WEBAPP" {
   #tags
   default_tags = local.default_tags
   EC2_webapp_tag = var.EC2_webapp_tag
+
 }
