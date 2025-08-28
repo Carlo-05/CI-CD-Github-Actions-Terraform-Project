@@ -14,6 +14,9 @@ variable "private_subnet_count" {
 variable "region" {
   description = "root region"
 }
+variable "env" {
+  description = "Environment"
+}
 # Resources Tags
 variable "default_tags" {
     type = map(string)
@@ -40,3 +43,4 @@ variable "private_RT1_tag" {
 variable "private_RT2_tag" {
     description = "Name tag."  
 }
+
