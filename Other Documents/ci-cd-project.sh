@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create sql file
-sudo tee ec2details.sql > /dev/null <<EOF
+sudo tee /tmp/ec2details.sql > /dev/null <<EOF
 CREATE TABLE ec2_instances (
     id INT AUTO_INCREMENT PRIMARY KEY,
     instance_id VARCHAR(50) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE ec2_instances (
 EOF
 
 # Varibles
-SQL_FILE="ec2details.sql"
+SQL_FILE="/tmp/ec2details.sql"
 
 # Detect OS
 OS_TYPE=$(grep -Ei 'ubuntu|amazon linux' /etc/os-release | awk -F= '{print $2}' | tr -d '"')
@@ -25,9 +25,9 @@ if echo "$OS_TYPE" | grep -q "Amazon Linux"; then
     sudo yum install -y httpd unzip mysql
     
     # Install AWS CLI v2
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip -q /tmp/awscliv2.zip -d /tmp
+    sudo /tmp/aws/install
     
     # Start & Enable Apache
     sudo systemctl start httpd
@@ -37,9 +37,14 @@ elif echo "$OS_TYPE" | grep -q "Ubuntu"; then
     echo "Detected Ubuntu. Installing AWS CLI and Apache..."
     
     # Update and install Apache
-    sudo apt-get update -y
-    sudo apt-get install -y awscli apache2 mysql-client
+    sudo apt update -y
+    sudo apt install -y unzip apache2 mysql-client
     
+    # Install AWS CLI v2
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip -q /tmp/awscliv2.zip -d /tmp
+    sudo /tmp/aws/install
+
     # Start & Enable Apache
     sudo systemctl start apache2
     sudo systemctl enable apache2
