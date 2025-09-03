@@ -62,7 +62,7 @@ REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/la
 
 # Check iam role and ssm-agent
 #iam role
-for i in{1..10}; do
+for i in {1..10}; do
     if aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
     echo "IAM role is ready"
     break
