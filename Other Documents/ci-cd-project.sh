@@ -63,11 +63,11 @@ REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/la
 # Check iam role and ssm-agent
 #iam role
 for i in {1..10}; do
-    if aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
+  if aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
     echo "IAM role is ready"
     break
   fi
-  echo "⚠️ IAM role not ready yet, retrying in 10s..."
+  echo "IAM role not ready yet, retrying in 10s..."
   sleep 10
 done
 
@@ -84,15 +84,9 @@ for i in {1..12}; do
       break
     fi
   elif [[ "$OS" == "ubuntu" ]]; then
-    # First, check that snapd itself is running
-    if systemctl is-active --quiet snapd; then
-      # Then check SSM Agent managed by snap
-      if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
-        echo "SSM Agent is running (Ubuntu)"
-        break
-      fi
-    else
-      echo "snapd is not ready yet"
+    if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
+      echo "SSM Agent is running (Ubuntu)"
+      break
     fi
   fi
   echo "SSM Agent not active yet, retrying in 10s..."
