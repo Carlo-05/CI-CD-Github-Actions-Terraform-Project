@@ -60,6 +60,46 @@ INSTANCE_ID=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.2
 PRIVATE_IP=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4)
 REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
 
+# Check iam role and ssm-agent
+#iam role
+for i in{1..10}; do
+    if aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
+    echo "IAM role is ready"
+    break
+  fi
+  echo "⚠️ IAM role not ready yet, retrying in 10s..."
+  sleep 10
+done
+
+if ! aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
+  echo "IAM role was never ready, aborting."
+  exit 1
+fi
+
+#ssm-agent
+for i in {1..10}; do
+  if [[ "$OS" == "amazon" ]]; then
+    if systemctl is-active --quiet amazon-ssm-agent; then
+      echo "SSM Agent is running (Amazon Linux 2)"
+      break
+    fi
+  elif [[ "$OS" == "ubuntu" ]]; then
+    if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
+      echo "SSM Agent is running (Ubuntu)"
+      break
+    fi
+  fi
+  echo "SSM Agent not active yet, retrying in 10s..."
+  sleep 10
+done
+
+if [[ "$OS" == "amazon" && ! $(systemctl is-active --quiet amazon-ssm-agent) ]]; then
+  echo "SSM Agent failed to start on Amazon Linux 2, aborting."
+  exit 1
+elif [[ "$OS" == "ubuntu" && ! $(snap services amazon-ssm-agent 2>/dev/null | grep -q "active") ]]; then
+  echo "SSM Agent failed to start on Ubuntu, aborting."
+  exit 1
+fi
 
 # Fetch SSM parameters
 for i in {1..5}; do
