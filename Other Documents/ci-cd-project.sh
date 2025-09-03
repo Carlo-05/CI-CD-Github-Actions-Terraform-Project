@@ -77,16 +77,22 @@ if ! aws sts get-caller-identity --region "$REGION" >/dev/null 2>&1; then
 fi
 
 #ssm-agent
-for i in {1..10}; do
+for i in {1..12}; do
   if [[ "$OS" == "amazon" ]]; then
     if systemctl is-active --quiet amazon-ssm-agent; then
       echo "SSM Agent is running (Amazon Linux 2)"
       break
     fi
   elif [[ "$OS" == "ubuntu" ]]; then
-    if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
-      echo "SSM Agent is running (Ubuntu)"
-      break
+    # First, check that snapd itself is running
+    if systemctl is-active --quiet snapd; then
+      # Then check SSM Agent managed by snap
+      if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
+        echo "SSM Agent is running (Ubuntu)"
+        break
+      fi
+    else
+      echo "snapd is not ready yet"
     fi
   fi
   echo "SSM Agent not active yet, retrying in 10s..."
