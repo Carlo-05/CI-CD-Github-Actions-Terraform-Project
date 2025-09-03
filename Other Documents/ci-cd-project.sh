@@ -62,18 +62,30 @@ REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/la
 
 
 # Fetch SSM parameters
-RDS_ENDPOINT=$(aws ssm get-parameter --name "/projectdb/endpoint" --query "Parameter.Value" --region $REGION --output text)
-RDS_USERNAME=$(aws ssm get-parameter --name "/projectdb/username" --query "Parameter.Value" --region $REGION --output text)
-RDS_PASSWORD=$(aws ssm get-parameter --name "/projectdb/password" --with-decryption --query "Parameter.Value" --region $REGION --output text)
-RDS_DATABASE=$(aws ssm get-parameter --name "/projectdb/database" --query "Parameter.Value" --region $REGION --output text)
+for i in {1..5}; do
+    echo "Attempt $i: Fetching RDS parameters from SSM..."
 
-# Ensure no port is appended to the endpoint (remove :3306 if it's accidentally added)
-RDS_ENDPOINT=$(echo $RDS_ENDPOINT | sed 's/:3306//')
+    RDS_ENDPOINT=$(aws ssm get-parameter --name "/projectdb/endpoint" --query "Parameter.Value" --region $REGION --output text 2>/dev/null)
+    RDS_USERNAME=$(aws ssm get-parameter --name "/projectdb/username" --query "Parameter.Value" --region $REGION --output text 2>/dev/null)
+    RDS_PASSWORD=$(aws ssm get-parameter --name "/projectdb/password" --with-decryption --query "Parameter.Value" --region $REGION --output text 2>/dev/null)
+    RDS_DATABASE=$(aws ssm get-parameter --name "/projectdb/database" --query "Parameter.Value" --region $REGION --output text 2>/dev/null)
 
-# Validate fetched values
+    # Ensure no port is appended to the endpoint (remove :3306 if it's accidentally added)
+    RDS_ENDPOINT=$(echo $RDS_ENDPOINT | sed 's/:3306//')    
+
+    # Validate fetched values
+    if [[ -n "$RDS_ENDPOINT" && -n "$RDS_USERNAME" && -n "$RDS_PASSWORD" && -n "$RDS_DATABASE" ]]; then
+        echo "All parameters are retrieved successfully."
+        break
+    fi
+    echo "Failed to fetch all parameters. Retrying in 5 seconds..."
+    sleep 10
+done
+
+# Final fail-safe check
 if [[ -z "$RDS_ENDPOINT" || -z "$RDS_USERNAME" || -z "$RDS_PASSWORD" || -z "$RDS_DATABASE" ]]; then
-    echo "Error: Failed to retrieve RDS credentials from SSM Parameter Store."
-    exit 1
+  echo "Failed to fetch RDS parameters after retries."
+  exit 1
 fi
 
 # Check if the table ec2_instances exists
