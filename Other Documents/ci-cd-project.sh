@@ -171,8 +171,8 @@ if [ -z "$table_exists_employees" ]; then
     mysql -h "$RDS_ENDPOINT" -u "$RDS_USERNAME" -p"$RDS_PASSWORD" "$RDS_DATABASE" < /tmp/employees.sql
     if [ $? -eq 0 ]; then
         echo "Importing employees.sql.....Done!"
-        if [ -f employees.sql ]; then
-            sudo rm employees.sql
+        if [ -f /tmp/employees.sql ]; then
+            sudo rm /tmp/employees.sql
             echo "employees.sql deleted."
         else
             echo "employees.sql not found."
@@ -180,9 +180,9 @@ if [ -z "$table_exists_employees" ]; then
     else
         echo "Importing failed. Deleting employees.sql aborted."
     fi
-elif [ -f employees.sql ]; then
+elif [ -f /tmp/employees.sql ]; then
     echo "Table employees already exist!"
-    sudo rm employees.sql
+    sudo rm /tmp/employees.sql
     echo "Deleting employees.sql....Done!"
 else
     echo "The table employees already exist or the file employees.sql not found!"
