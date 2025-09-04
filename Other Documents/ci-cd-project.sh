@@ -168,7 +168,7 @@ SHOW TABLES LIKE 'employees';
 # Conditional to import employees.sql
 if [ -z "$table_exists_employees" ]; then
     echo "Table employees does not exist. Proceeding with import..."
-    mysql -h "$RDS_ENDPOINT" -u "$RDS_USERNAME" -p"$RDS_PASSWORD" "$RDS_DATABASE" < employees.sql
+    mysql -h "$RDS_ENDPOINT" -u "$RDS_USERNAME" -p"$RDS_PASSWORD" "$RDS_DATABASE" < /tmp/employees.sql
     if [ $? -eq 0 ]; then
         echo "Importing employees.sql.....Done!"
         if [ -f employees.sql ]; then
