@@ -24,7 +24,7 @@ resource "aws_launch_template" "WebApp_ASG_template" {
       name = var.iam_instance_profile
     }
     #user data, get sh file from github
-    user_data = <<-EOF
+    user_data = base64encode(<<-EOF
       #!/bin/bash
 
       # Log everything for debugging
@@ -105,6 +105,7 @@ resource "aws_launch_template" "WebApp_ASG_template" {
           exit 1
       fi
     EOF
+    )
     
     tags = merge(var.default_tags, {Name = var.WebApp_ASG_template_tag })
 }
@@ -149,5 +150,6 @@ resource "aws_autoscaling_group" "WebApp_ASG" {
     }
     }
 }
+
 
 
