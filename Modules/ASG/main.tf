@@ -106,7 +106,6 @@ resource "aws_launch_template" "WebApp_ASG_template" {
       fi
     EOF
     )
-    
     tags = merge(var.default_tags, {Name = var.WebApp_ASG_template_tag })
 }
 
@@ -150,6 +149,7 @@ resource "aws_autoscaling_group" "WebApp_ASG" {
     }
     }
 }
+
 
 
 
