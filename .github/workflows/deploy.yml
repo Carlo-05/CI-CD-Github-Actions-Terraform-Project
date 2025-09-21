@@ -155,9 +155,10 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
 
-#    - name: Terraform Apply (Auto Approve)
-#      run: terraform apply -auto-approve
-#      working-directory: env/${{ steps.read_env.outputs.read_env }}
+    - name: Terraform Apply (Auto Approve)
+      run: terraform apply -auto-approve
+      working-directory: env/${{ steps.read_env.outputs.read_env }}
+
 
 
 
