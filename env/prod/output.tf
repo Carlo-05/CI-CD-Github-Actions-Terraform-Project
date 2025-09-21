@@ -1,11 +1,9 @@
 output "MyVPC" {
   value = module.VPC.MyVPC
 }
-output "public-subnets" {
-  value = module.VPC.public-subnets
-}
-output "private-subnets" {
-  value = module.VPC.private-subnets
+#RDS
+output "rds_endpoint" {
+  value = split(":", module.RDS.db_endpoint)[0]
 }
 # ALB
 output "ALB-dns" {
@@ -14,4 +12,5 @@ output "ALB-dns" {
 # Bastion
 output "bastion_public_ip" {
   value = module.BASTION.bastion_ip
+
 }
