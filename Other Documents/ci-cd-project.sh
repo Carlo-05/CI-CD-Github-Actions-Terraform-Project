@@ -102,7 +102,7 @@ elif [[ "$OS" == "ubuntu" && ! $(snap services amazon-ssm-agent 2>/dev/null | gr
 fi
 
 # Fetch SSM parameters
-for i in {1..10}; do
+for i in {1..30}; do
     echo "Attempt $i: Fetching RDS parameters from SSM..."
 
     RDS_ENDPOINT=$(aws ssm get-parameter --name "/projectdb/endpoint" --query "Parameter.Value" --region $REGION --output text 2>/dev/null)
