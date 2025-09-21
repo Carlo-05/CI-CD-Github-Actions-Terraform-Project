@@ -5,9 +5,7 @@ variable "NAT-Subnet" {
 variable "Private-RT-1" {
     description = "Attached this subnet to NAT"  
 }
-variable "Private-RT-2" {
-    description = "Attached this subnet to NAT"  
-}
+
 #tagging
 
 variable "default_tags" {
@@ -20,4 +18,5 @@ variable "EIP_tag" {
 
 variable "NatGateway_tag" {
     description = "NatGateway name tag"  
+
 }
