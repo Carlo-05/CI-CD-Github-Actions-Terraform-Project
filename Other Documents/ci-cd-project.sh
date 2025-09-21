@@ -84,7 +84,7 @@ for i in {1..12}; do
       break
     fi
   elif [[ "$OS" == "ubuntu" ]]; then
-    if snap services amazon-ssm-agent 2>/dev/null | grep -q "active"; then
+    if snap services amazon-ssm-agent 2>/dev/null | grep active; then
       echo "SSM Agent is running (Ubuntu)"
       break
     fi
