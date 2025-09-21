@@ -49,7 +49,6 @@ module "NAT" {
   source = "../../Modules/NAT"
   NAT-Subnet = module.VPC.public-subnets[0]
   Private-RT-1 = module.VPC.private-route-table-1
-  Private-RT-2 = module.VPC.private-route-table-2[0]
   #tags
   default_tags = local.default_tags
   NatGateway_tag = var.NatGateway_tag
@@ -166,4 +165,5 @@ module "ASG" {
 
 
 }
+
 
