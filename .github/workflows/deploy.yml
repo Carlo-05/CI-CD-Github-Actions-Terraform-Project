@@ -141,7 +141,7 @@ jobs:
           echo "PUBLIC_KEY not set"
           exit 1
         else
-          echo "✅ PUBLIC_KEY is set"
+          echo "PUBLIC_KEY is set"
           echo "$TF_VAR_public_key" | head -c 20
         fi
 
@@ -155,8 +155,9 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
 
-#    - name: Terraform Apply (Auto Approve)
- #     run: terraform apply -auto-approve
+    - name: Terraform Apply (Auto Approve)
+      run: terraform apply -auto-approve
+
 
 
 
