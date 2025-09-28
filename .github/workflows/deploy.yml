@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   terraform-deploy:
-    name: Terraform Lint & Validate
+    name: Terraform plan & apply
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
@@ -157,6 +157,7 @@ jobs:
 
 #    - name: Terraform Apply (Auto Approve)
 #      run: terraform apply -auto-approve
+
 
 
 
