@@ -152,9 +152,9 @@
 
 ## **How to use:**
 
-- [1. Prerequisites (WSL, VS Code, Terraform, AWS cli setup, and fork this project).](https://raw.githubusercontent.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/refs/heads/main/Other%20Documents/MD%20files/1.%20Prerequisites_CICD.md)
-- [2. First step (create s3, create s3 policy, and create RDS credentials in SSM Parameters Store).](https://raw.githubusercontent.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/refs/heads/main/Other%20Documents/MD%20files/2.%20First%20step_CICD.md)
-- [3. Create OpenID Connect (OIDC) and configure secrets and variables.](https://raw.githubusercontent.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/refs/heads/main/Other%20Documents/MD%20files/3.%20How%20to_OIDC_and_Variables_CICD.md)
-- [4. Github Actions, Terraform configuration execution and project testing.](https://raw.githubusercontent.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/refs/heads/main/Other%20Documents/MD%20files/4.%20Execute_CICD.md)
-- [5. Test EC2 Auto Scaling Group (ASG).](https://raw.githubusercontent.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/refs/heads/main/Other%20Documents/MD%20files/5.%20ASG_Test_CICD.md)
+- [1. Prerequisites (WSL, VS Code, Terraform, AWS cli setup, and fork this project).](https://github.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/blob/9a1f6e3d9a7a2139b94ffb6cf88157e1e7719f37/Other%20Documents/MD%20files/1.%20Prerequisites_CICD.md)
+- [2. First step (create s3, create s3 policy, and create RDS credentials in SSM Parameters Store).](https://github.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/blob/9a1f6e3d9a7a2139b94ffb6cf88157e1e7719f37/Other%20Documents/MD%20files/2.%20First%20step_CICD.md)
+- [3. Create OpenID Connect (OIDC) and configure secrets and variables.](https://github.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/blob/9a1f6e3d9a7a2139b94ffb6cf88157e1e7719f37/Other%20Documents/MD%20files/3.%20How%20to_OIDC_and_Variables_CICD.md)
+- [4. Github Actions, Terraform configuration execution and project testing.](https://github.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/blob/9a1f6e3d9a7a2139b94ffb6cf88157e1e7719f37/Other%20Documents/MD%20files/4.%20Execute_CICD.md)
+- [5. Test EC2 Auto Scaling Group (ASG).](https://github.com/Carlo-05/CI-CD-Github-Actions-Terraform-Project/blob/9a1f6e3d9a7a2139b94ffb6cf88157e1e7719f37/Other%20Documents/MD%20files/5.%20ASG_Test_CICD.md)
 
